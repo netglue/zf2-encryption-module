@@ -162,6 +162,20 @@ class Filesystem implements KeyStorageInterface {
 	}
 	
 	/**
+	 * Whether the named key pair requires a password or not
+	 * @return bool
+	 * @param string $name
+	 * @throws Exception\InvalidArgumentException if the name does not exist
+	 */
+	public function requiresPassPhrase($name = self::DEFAULT_KEY_NAME) {
+		if(!$this->has($name)) {
+			throw new Exception\InvalidArgumentException("The key pair identified with {$name} does not exist");
+		}
+		$list = $this->getKeyList();
+		return $list[$name]['requiresPassword'];
+	}
+	
+	/**
 	 * Load a key pair from disk
 	 * @param string $name
 	 * @param string $passPhrase

@@ -38,4 +38,12 @@ interface KeyStorageInterface {
 	 */
 	public function getKeyPairNames();
 	
+	/**
+	 * Whether the named key pair requires a password or not
+	 * @return bool
+	 * @param string $name
+	 * @throws Exception\InvalidArgumentException if the name does not exist
+	 */
+	public function requiresPassPhrase($name = self::DEFAULT_KEY_NAME);
+	
 }

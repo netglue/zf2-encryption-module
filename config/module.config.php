@@ -18,6 +18,12 @@ $routes = include __DIR__.'/routes.config.php';
 return array(
 	'netglue_encrypt' => array(
 		
+		'key_storage' => array(
+			'name' => 'NetglueEncrypt\KeyStorage\Filesystem',
+			'options' => array(
+				'basePath' => __DIR__ . '/../data',
+			),
+		),
 	),
 	'router' => array(
 		'routes' => $routes,

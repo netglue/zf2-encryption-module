@@ -10,6 +10,10 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Log\LoggerAwareInterface;
 use Zend\Log\LoggerInterface;
 
+/**
+ * Key Storage
+ */
+use NetglueEncrypt\KeyStorage\KeyStorageInterface;
 
 
 abstract class AbstractController extends AbstractActionController {
@@ -46,4 +50,12 @@ abstract class AbstractController extends AbstractActionController {
 		return $this->logger instanceof LoggerInterface;
 	}
 	
+	public function setKeyStorage(KeyStorageInterface $storage) {
+		$this->keyStorage = $storage;
+		return $this;
+	}
+	
+	public function getKeyStorage() {
+		return $this->keyStorage;
+	}
 }

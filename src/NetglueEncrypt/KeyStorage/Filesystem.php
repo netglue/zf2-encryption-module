@@ -199,6 +199,16 @@ class Filesystem implements KeyStorageInterface {
 	}
 	
 	/**
+	 * Return an array of key pair names/identifiers
+	 * @return array
+	 */
+	public function getKeyPairNames() {
+		$list = $this->getKeyList();
+		unset($list['__version']);
+		return array_keys($list);
+	}
+	
+	/**
 	 * Load JSON encoded key list from disk
 	 * @return void
 	 * @throws Exception\RuntimeException if an existing file cannot be read/loaded

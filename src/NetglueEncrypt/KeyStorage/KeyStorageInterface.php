@@ -32,4 +32,10 @@ interface KeyStorageInterface {
 	 */
 	public function has($name = self::DEFAULT_KEY_NAME);
 	
+	/**
+	 * Return an array of available key names
+	 * @return array
+	 */
+	public function getKeyPairNames();
+	
 }

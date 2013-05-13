@@ -1,0 +1,68 @@
+<?php
+/**
+ * View script for rendering the key pair generation form
+ */
+
+$this->headTitle('Manual Text Encryption/Decryption');
+
+?>
+
+<div class="page-header">
+	<h1>Manual Text Encryption/Decryption</h1>
+</div>
+
+<?php
+if(isset($this->error) && true === $this->error) {
+?>
+	<div class="alert alert-block alert-error">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<h4>Form Errors</h4>
+		<p>Please review the error messsages below and adjust your input accordingly</p>
+	</div>
+<?php
+}
+
+$this->form->setAttribute('class', 'form-horizontal');
+echo $this->form()->openTag($this->form);
+
+foreach($this->form as $element) {
+	
+	if($element instanceof \Zend\Form\Element\Textarea) {
+		$element->setAttribute('class', 'input-block-level');
+		$element->setAttribute('rows', 15);
+	}
+	
+	if($element instanceof \Zend\Form\Element\Button) {
+		?>
+		<div class="form-actions">
+			<?php
+			$element->setAttribute('class', 'btn btn-primary');
+			echo $this->formButton($element); ?> 
+			<button type="reset" class="btn">Reset</button>
+		</div>
+		<?php
+	} elseif($element instanceof \Zend\Form\Element\Hidden) {
+		echo $this->formHidden($element);
+	} else {
+		?>
+		
+		<div class="control-group">
+			<?php
+			echo $this->formLabel()->openTag(array('for' => $element->getAttribute('name'), 'class' => 'control-label'));
+			echo $this->escapeHtml($element->getLabel());
+			echo $this->formLabel()->closeTag();
+			?>
+			<div class="controls">
+				<?php
+				echo $this->formElement($element);
+				$this->formElementErrors()->setAttributes(array('class' => 'text-error unstyled'));
+				echo $this->formElementErrors($element);
+				?>
+			</div>
+		</div>
+		
+		<?php
+	}
+}
+
+echo $this->form()->closeTag($this->form);

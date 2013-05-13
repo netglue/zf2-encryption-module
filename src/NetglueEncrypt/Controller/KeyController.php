@@ -19,6 +19,10 @@ class KeyController extends AbstractController {
 		
 	}
 	
+	/**
+	 * Manually encypt or decrypt data
+	 * @return ViewModel
+	 */
 	public function manualAction() {
 		$view = new ViewModel;
 		$view->form = $this->getManualForm();
@@ -115,14 +119,22 @@ class KeyController extends AbstractController {
 		return $this->redirect()->toRoute(static::ROUTE_HOME);
 	}
 	
-	
+	/**
+	 * Return form for generating keys
+	 * @return NetglueEncrypt\Form\Generate
+	 */
 	public function getGenerateForm() {
 		$sl = $this->getServiceLocator();
 		return $sl->get('NetglueEncrypt\Form\GenerateKeys');
 	}
 	
+	/**
+	 * Return form for encrypting and decrypting data
+	 * @return NetglueEncrypt\Form\Manual
+	 */
 	public function getManualForm() {
 		$sl = $this->getServiceLocator();
 		return $sl->get('NetglueEncrypt\Form\Manual');
 	}
+	
 }

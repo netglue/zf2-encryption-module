@@ -34,13 +34,16 @@ use Zend\ModuleManager\Feature\ControllerProviderInterface;
 use Zend\ModuleManager\Feature\BootstrapListenerInterface;
 use Zend\EventManager\EventInterface as Event;
 
+use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
+
 class Module implements
 	AutoloaderProviderInterface,
 	ServiceProviderInterface,
 	ConfigProviderInterface,
 	BootstrapListenerInterface,
 	ControllerPluginProviderInterface,
-	ControllerProviderInterface {
+	ControllerProviderInterface,
+	ViewHelperProviderInterface {
 	
 	
 	/**
@@ -93,6 +96,27 @@ class Module implements
 			),
 			'aliases' => array(
 				'ngCrypt' => 'NetglueEncrypt\Controller\Plugin\Crypt',
+			),
+		);
+	}
+	
+	/**
+	 * Return view helper plugin config
+	 * @return array
+	 */
+	public function getViewHelperConfig() {
+		return array(
+			'factories' => array(
+				'NetglueEncrypt\View\Helper\Crypt' => function($sm) {
+					$sl = $sm->getServiceLocator();
+					$plugin = new \NetglueEncrypt\View\Helper\Crypt;
+					$plugin->setKeyStorage($sl->get('NetglueEncrypt\KeyStorage'));
+					$plugin->setSession($sl->get('NetglueEncrypt\Session'));
+					return $plugin;
+				},
+			),
+			'aliases' => array(
+				'ngCrypt' => 'NetglueEncrypt\View\Helper\Crypt',
 			),
 		);
 	}

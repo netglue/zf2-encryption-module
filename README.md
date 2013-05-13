@@ -25,7 +25,8 @@ The controller plugin will throw exceptions where the password has not been set 
 ## TODO
 
 * View Helper
-* Controller Plugin
 * Generic Filter
 * Download Keys
 * Delete Keys
+* Add sign and verify methods to controller plugin and view helper
+* Add sign and verify features/forms to views

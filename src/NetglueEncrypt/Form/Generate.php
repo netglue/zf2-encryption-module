@@ -69,12 +69,11 @@ class Generate extends Base implements InputFilterProviderInterface {
 		foreach($algos as $hash) {
 			$upper = strtoupper($hash);
 			if(defined('OPENSSL_ALGO_' . $upper)) {
-				$hashes[$hash] = $upper;
+				$hashes[$upper] = $upper;
 			}
 		}
-		$hashes = array_unique($hashes);
 		$select->setValueOptions($hashes);
-		$select->setValue('sha1');
+		$select->setValue('SHA1');
 		return $select;
 	}
 	

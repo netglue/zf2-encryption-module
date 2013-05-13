@@ -72,6 +72,7 @@ class Generate extends Base implements InputFilterProviderInterface {
 				$hashes[$hash] = $upper;
 			}
 		}
+		$hashes = array_unique($hashes);
 		$select->setValueOptions($hashes);
 		$select->setValue('sha1');
 		return $select;

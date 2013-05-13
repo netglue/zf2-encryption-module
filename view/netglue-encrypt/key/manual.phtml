@@ -22,6 +22,18 @@ if(isset($this->error) && true === $this->error) {
 <?php
 }
 
+if($this->result) {
+	?>
+	<div class="well well-large">
+		<h2>Encrypted/Decrypted Output</h2>
+		<textarea rows="15" class="input-block-level"><?php
+		echo $this->escapeHtml($this->result);
+		?></textarea>
+	</div>
+	<?php
+}
+
+
 $this->form->setAttribute('class', 'form-horizontal');
 echo $this->form()->openTag($this->form);
 

@@ -29,7 +29,12 @@ class Base extends Form {
 		));
 		$select->setLabel('Key Pair');
 		$select->setEmptyOption('-- Choose a Key Pair --');
-		$select->setValueOptions($this->getKeyStorage()->getKeyPairNames());
+		$names = $this->getKeyStorage()->getKeyPairNames();
+		$opt = array();
+		foreach($names as $name) {
+			$opt[$name] = $name;
+		}
+		$select->setValueOptions($opt);
 		$select->setValue('default');
 		return $select;
 	}

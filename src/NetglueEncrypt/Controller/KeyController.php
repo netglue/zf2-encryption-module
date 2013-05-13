@@ -23,6 +23,43 @@ class KeyController extends AbstractController {
 		$view = new ViewModel;
 		$view->form = $this->getManualForm();
 		$view->error = false;
+		$view->result = NULL;
+		
+		$request = $this->getRequest();
+		if(!$request->isPost()) {
+			return $view;	
+		}
+		$view->form->setData($request->getPost());
+		if(!$view->form->isValid()) {
+			$view->error = true;
+			return $view;
+		}
+		
+		$post = $view->form->getData();
+		$keys = $this->getKeyStorage();
+		try {
+			$rsa = $keys->get($post['keyName'], $post['keyPassPhrase']);
+		} catch(\Exception $e) {
+			$view->form->setMessages(array(
+				'keyName' => array(
+					'Failed to load keys. Please check the pass phrase.',
+					$e->getMessage(),
+				),
+			));
+			return $view;
+		}
+		$rsa->getOptions()->setBinaryOutput($post['outputType'] === 'binary');
+		$method = $post['direction'] === 'encrypt' ? 'encrypt' : 'decrypt';
+		try {
+			$view->result = $rsa->{$method}($post['sourceText']);
+		} catch(\Exception $e) {
+			$view->form->setMessages(array(
+				'keyName' => array(
+					'Failed to encrypt or decrypt data',
+					$e->getMessage(),
+				),
+			));
+		}
 		return $view;
 	}
 	
@@ -35,7 +72,6 @@ class KeyController extends AbstractController {
 		$view->form = $this->getGenerateForm();
 		$view->error = false;
 		
-		$request = $this->getRequest();
 		$redirectUrl = $this->url()->fromRoute(static::ROUTE_GEN_KEYS);
 		$prg = $this->prg($redirectUrl, true);
 		

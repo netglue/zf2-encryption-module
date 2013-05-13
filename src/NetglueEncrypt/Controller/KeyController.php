@@ -65,6 +65,28 @@ class KeyController extends AbstractController {
 	}
 	
 	/**
+	 * Delete Key Pair
+	 * @return ViewModel
+	 */
+	public function deleteAction() {
+		$params = $this->params()->fromRoute();
+		$keyName = $params['keyName'];
+		$storage = $this->getKeyStorage();
+		$session = $this->getSession();
+		if(!$storage->has($keyName)) {
+			$this->flashMessenger()->addErrorMessage("There is no key pair by the name {$keyName}");
+			return $this->redirect()->toRoute(static::ROUTE_HOME);
+		}
+		if($storage->requiresPassPhrase($keyName) && !$session->hasPassPhrase($keyName)) {
+			$this->flashMessenger()->addInfoMessage("Please set the pass phrase for {$keyName} before deleting it");
+			return $this->redirect()->toRoute(static::ROUTE_SET_PASS, array('keyName' => $keyName));
+		}
+		$storage->delete($keyName);
+		$this->flashMessenger()->addSuccessMessage("The key pair {$keyName} has been deleted");
+		return $this->redirect()->toRoute(static::ROUTE_HOME);
+	}
+	
+	/**
 	 * Clear all pass phrases from the session
 	 * @return void
 	 */

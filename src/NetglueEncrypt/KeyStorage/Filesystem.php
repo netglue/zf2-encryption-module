@@ -152,6 +152,33 @@ class Filesystem implements KeyStorageInterface {
 		return $this;
 	}
 	
+	public function delete($name) {
+		if(empty($name) || !is_string($name)) {
+			throw new Exception\InvalidArgumentException("A name for the key pair must be provided");
+		}
+		if(!$this->has($name)) {
+			throw new Exception\RuntimeException("The key pair {$name} does not exist");
+		}
+		$keyList = $this->getKeyList();
+		$base = $this->options->getBasePath() . DIRECTORY_SEPARATOR;
+		$hash = $keyList[$name]['file'];
+		$files = array(
+			$base.$hash,
+			$base.$hash.'.pub',
+		);
+		foreach($files as $file) {
+			if(!file_exists($file)) {
+				throw new Exception\RuntimeException("A key file for {$name} does not exist");
+			}
+			if(!unlink($file)) {
+				throw new Exception\RuntimeException("Failed to delete a key file for {$name}");
+			}
+		}
+		unset($this->keys[$name], $this->keyList[$name]);
+		$this->saveKeyList();
+		return $this;
+	}
+	
 	/**
 	 * Whether the named key pair exists
 	 * @param string $name

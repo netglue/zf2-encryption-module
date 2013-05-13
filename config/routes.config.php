@@ -78,6 +78,15 @@ $routes = array(
 				),
 			),
 		),
+		'delete' => array(
+			'type' => 'Segment',
+			'options' => array(
+				'route' => '/delete-key-pair[/:keyName]',
+				'defaults' => array(
+					'action' => 'delete',
+				),
+			),
+		),
 		
 	), // fi 'child_routes'
 );

@@ -39,7 +39,7 @@ $this->headTitle('RSA Public Key Encryption Management');
 		<span class="muted">Not Required</span>
 		<?php } ?>
 		</td>
-		<td></td>
+		<td><a href="<?php echo $this->url('netglue_encrypt/delete', array('keyName' => $pair['name'])); ?>" title="Delete this key pair"><span class="icon icon-trash"></span></a></td>
 	</tr>
 	<?php endforeach; ?>
 	</tbody>

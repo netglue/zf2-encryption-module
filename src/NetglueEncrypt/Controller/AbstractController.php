@@ -25,6 +25,12 @@ abstract class AbstractController extends AbstractActionController {
 	protected $logger;
 	
 	/**
+	 * Key Storage
+	 * @var KeyStorageInterface|NULL
+	 */
+	protected $keyStorage;
+	
+	/**
 	 * Set Logger
 	 * @param LoggerInterface $logger
 	 * @return LoggerAwareInterface

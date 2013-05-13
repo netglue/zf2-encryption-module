@@ -4,6 +4,8 @@
  * 
  */
 
+$defaultName = \NetglueEncrypt\KeyStorage\KeyStorageInterface::DEFAULT_KEY_NAME;
+
 $routes = array(
 	'type' => 'Literal',
 	'options' => array(
@@ -33,6 +35,46 @@ $routes = array(
 				'route' => '/encrypt-decrypt',
 				'defaults' => array(
 					'action' => 'manual',
+				),
+			),
+		),
+		
+		'setpass' => array(
+			'type' => 'Segment',
+			'options' => array(
+				'route' => '/set-pass-phrase[/:keyName]',
+				'defaults' => array(
+					'action' => 'set-pass-phrase',
+					'keyName' => $defaultName,
+				),
+			),
+		),
+		'clearpass' => array(
+			'type' => 'Segment',
+			'options' => array(
+				'route' => '/clear-pass-phrase[/:keyName]',
+				'defaults' => array(
+					'action' => 'clear-pass-phrase',
+					'keyName' => $defaultName,
+				),
+			),
+		),
+		'clearall' => array(
+			'type' => 'Segment',
+			'options' => array(
+				'route' => '/clear-all-pass-phrases',
+				'defaults' => array(
+					'action' => 'clear-all-pass-phrases',
+				),
+			),
+		),
+		'view' => array(
+			'type' => 'Segment',
+			'options' => array(
+				'route' => '/view-key-pair[/:keyName]',
+				'defaults' => array(
+					'action' => 'view',
+					'keyName' => $defaultName,
 				),
 			),
 		),

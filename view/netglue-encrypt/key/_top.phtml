@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * Render Flash Messenger Stuff
+ */
+$helper = $this->flashMessenger();
+$plugin = $helper->getPluginFlashMessenger();
+
+$helper->setMessageOpenFormat("<div%s>\n<button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>\n");
+$helper->setMessageCloseString("</div>\n");
+$helper->setMessageSeparatorString("<br>\n");
+
+if($helper->hasInfoMessages()) {
+	echo $helper->render($plugin::NAMESPACE_INFO, array('alert alert-info'));
+}
+
+if($helper->hasSuccessMessages()) {
+	echo $helper->render($plugin::NAMESPACE_SUCCESS, array('alert alert-success'));
+}
+
+if($helper->hasErrorMessages()) {
+	echo $helper->render($plugin::NAMESPACE_ERROR, array('alert alert-error'));
+}
+
+if($helper->hasMessages()) {
+	echo $helper->render($plugin::NAMESPACE_DEFAULT, array('alert'));
+}
+
+/**
+ * Navigation.. Of Sorts
+ */
+?>
+
+<div class="row">
+	
+	<div class="container span12" style="padding-bottom: 20px;">
+		<div class="btn-group">
+			<a class="btn btn-small" href="<?php echo $this->url('netglue_encrypt'); ?>"><span class="icon icon-list"></span> Key Pair List</a>
+			<a class="btn btn-small" href="<?php echo $this->url('netglue_encrypt/manual'); ?>"><span class="icon icon-lock"></span> Encrypt/Decrypt</a>
+			<a class="btn btn-small" href="<?php echo $this->url('netglue_encrypt/generate'); ?>"><span class="icon icon-certificate"></span> Generate Key Pair</a>
+			<a class="btn btn-small" href="<?php echo $this->url('netglue_encrypt/clearall'); ?>"><span class="icon icon-refresh"></span> Clear Pass Phrases</a>
+		</div>
+	</div>
+	
+</div>

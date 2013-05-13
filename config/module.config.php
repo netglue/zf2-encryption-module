@@ -15,6 +15,11 @@
  */
 $routes = include __DIR__.'/routes.config.php';
 
+/**
+ * View Script Path
+ */
+$viewPath = __DIR__ . '/../view/netglue-encrypt/key';
+
 return array(
 	'netglue_encrypt' => array(
 		
@@ -25,13 +30,23 @@ return array(
 			),
 		),
 	),
+	
+	
 	'router' => array(
 		'routes' => $routes,
 	),
 	
 	'view_manager' => array(
 		'template_path_stack' => array(
-			'netglue_encrypt' => __DIR__ . '/../view',
+			//'netglue_encrypt' => __DIR__ . '/../view',
+		),
+		'template_map' => array(
+			'netglue-encrypt/top' => $viewPath.'/_top.phtml',
+			'netglue-encrypt/key/generate' => $viewPath.'/generate.phtml',
+			'netglue-encrypt/key/index' => $viewPath.'/index.phtml',
+			'netglue-encrypt/key/view' => $viewPath.'/view.phtml',
+			'netglue-encrypt/key/manual' => $viewPath.'/manual.phtml',
+			'netglue-encrypt/key/set-pass-phrase' => $viewPath.'/set-pass-phrase.phtml',
 		),
 	),
 );

@@ -1,0 +1,36 @@
+<?php
+
+$this->headTitle('Key Pair "'.$this->keyName.'"');
+
+$options = $this->rsa->getOptions();
+$privKey = $options->getPrivateKey();
+$pubKey = $options->getPublicKey();
+$algo = $options->getHashAlgorithm();
+?>
+
+<div class="page-header">
+	<h1>Key Pair &ldquo;<?php echo $this->keyName; ?>&rdquo;</h1>
+</div>
+
+<?php echo $this->partial('netglue-encrypt/top'); ?>
+
+<table class="table table-striped table-condensed">
+	<tbody>
+		<tr>
+			<th>Key Size</th>
+			<td><?php echo $privKey->getSize(); ?> Bytes</td>
+		</tr>
+		<tr>
+			<th>Hash Algorithm</th>
+			<td><?php echo $algo; ?></td>
+		</tr>
+		<tr>
+			<th>Private Key</th>
+			<td><pre><?php echo $this->escapeHtml($privKey->toString()); ?></pre></td>
+		</tr>
+		<tr>
+			<th>Public Key</th>
+			<td><pre><?php echo $this->escapeHtml($pubKey->toString()); ?></pre></td>
+		</tr>
+	</tbody>
+</table>

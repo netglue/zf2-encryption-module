@@ -83,10 +83,16 @@ class Module implements
 	public function getControllerPluginConfig() {
 		return array(
 			'factories' => array(
-				
+				'NetglueEncrypt\Controller\Plugin\Crypt' => function($sm) {
+					$sl = $sm->getServiceLocator();
+					$plugin = new \NetglueEncrypt\Controller\Plugin\Crypt;
+					$plugin->setKeyStorage($sl->get('NetglueEncrypt\KeyStorage'));
+					$plugin->setSession($sl->get('NetglueEncrypt\Session'));
+					return $plugin;
+				},
 			),
 			'aliases' => array(
-				
+				'ngCrypt' => 'NetglueEncrypt\Controller\Plugin\Crypt',
 			),
 		);
 	}

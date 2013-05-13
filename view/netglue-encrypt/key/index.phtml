@@ -1,0 +1,46 @@
+<?php
+
+$this->headTitle('RSA Public Key Encryption Management');
+
+?>
+
+<div class="page-header">
+	<h1>RSA Encryption Key Pair Management</h1>
+</div>
+
+<?php echo $this->partial('netglue-encrypt/top'); ?>
+
+<table class="table table-striped table-condensed">
+	<thead>
+		<tr>
+			<th>Key Pair Name</th>
+			<th><!-- View Info --></th>
+			<th><!-- Requires Password --></th>
+			<th><!-- Set/Clear Password --></th>
+			<th><!-- Delete --></th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach($this->keyPairs as $pair): ?>
+	<tr>
+		<td><?php echo $this->escapeHtml($pair['name']); ?></td>
+		<td><a href="<?php echo $this->url('netglue_encrypt/view', array('keyName' => $pair['name'])); ?>" title="View further info about this key pair"><span class="icon icon-info-sign"></span></a></td>
+		<td><?php echo $pair['requiresPassword'] ? '<span class="icon icon-lock"></span>' : ''; ?></td>
+		<td>
+		<?php if($pair['passwordSet'] === false && $pair['requiresPassword']) {
+			$setPass = $this->url('netglue_encrypt/setpass', array('keyName' => $pair['name']));
+		?>
+		<a href="<?php echo $setPass; ?>" title="Set the pass phrase for this key pair">Set Pass Phrase</a>
+		<?php } elseif($pair['passwordSet'] === true) {
+			$clearPass = $this->url('netglue_encrypt/clearpass', array('keyName' => $pair['name']));
+		?>
+		<a href="<?php echo $clearPass; ?>" title="Clear the pass phrase for this key pair">Clear Pass Phrase</a>
+		<?php } else { ?>
+		<span class="muted">Not Required</span>
+		<?php } ?>
+		</td>
+		<td></td>
+	</tr>
+	<?php endforeach; ?>
+	</tbody>
+</table>

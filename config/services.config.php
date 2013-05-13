@@ -7,6 +7,7 @@ return array(
 	
 	'invokables' => array(
 		'NetglueEncrypt\Form\Manual' => 'NetglueEncrypt\Form\Manual',
+		'NetglueEncrypt\Form\SetPass' => 'NetglueEncrypt\Form\SetPass',
 	),
 	
 	'initializers' => array(
@@ -27,6 +28,10 @@ return array(
 			return $form;
 		},
 		
+		'NetglueEncrypt\Session' => function($sm) {
+			$container = new \NetglueEncrypt\Session\Container('netglue_encrypt');
+			return $container;
+		},
 	),
 	
 	'aliases' => array(

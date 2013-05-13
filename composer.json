@@ -1,0 +1,33 @@
+{
+  "name" : "netglue/zf2-encryption-module",
+  "description" : "ZF2 Module that provides helpers for using Zend's RSA encryption library and managing keys",
+  "type" : "library",
+  "license" : "MIT",
+  "keywords" : [
+    "zf2",
+    "zend",
+    "module",
+    "netglue",
+    "encryption"
+  ],
+  "homepage" : "https://bitbucket.org/netglue/zf2-encryption-module",
+  "support" : {
+    "issues" : "https://bitbucket.org/netglue/zf2-encryption-module/issues"
+  },
+  "authors" : [
+    {
+      "name" : "George Steel",
+      "email" : "george@net-glue.co.uk",
+      "homepage" : "http://netglue.co/"
+    }
+  ],
+  "require" : {
+    "php" : ">=5.3.3",
+    "zendframework/zendframework" : "2.*"
+  },
+  "autoload" : {
+    "psr-0" : {
+      "NetglueEncrypt" : "src/"
+    }
+  }
+}

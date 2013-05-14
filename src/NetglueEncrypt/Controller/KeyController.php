@@ -209,6 +209,7 @@ class KeyController extends AbstractController {
 			if($session->hasPassPhrase($post['keyName'])) {
 				$pass = $session->getPassPhrase($post['keyName']);
 			}
+			$session->setPassPhrase($pass, $post['keyName']);
 			$rsa = $keys->get($post['keyName'], $pass);
 		} catch(\Exception $e) {
 			$view->form->setMessages(array(

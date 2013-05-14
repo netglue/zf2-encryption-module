@@ -85,7 +85,7 @@ class Generate extends Base implements InputFilterProviderInterface {
 		$select->setLabel('Key Size');
 		$select->setEmptyOption('-- Select Key Size --');
 		$opt = array();
-		for($pow = 11; $pow <= 15; $pow++) {
+		for($pow = 10; $pow <= 13; $pow++) {
 			$v = pow(2, $pow);
 			$opt[$v] = number_format($v).' Bytes';
 		}

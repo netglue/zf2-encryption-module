@@ -3,7 +3,11 @@
 $this->headTitle('Key Pair "'.$this->keyName.'"');
 
 $options = $this->rsa->getOptions();
-$privKey = $options->getPrivateKey();
+$size = $pemString = '<span class="muted">Private Key Not Loaded</span>';
+if($privKey = $options->getPrivateKey()) {
+	$size = $privKey->getSize().' Bit';
+	$pemString = $this->escapeHtml($privKey->toString());
+}
 $pubKey = $options->getPublicKey();
 $algo = $options->getHashAlgorithm();
 ?>
@@ -18,7 +22,7 @@ $algo = $options->getHashAlgorithm();
 	<tbody>
 		<tr>
 			<th>Key Size</th>
-			<td><?php echo $privKey->getSize(); ?> Bytes</td>
+			<td><?php echo $size; ?></td>
 		</tr>
 		<tr>
 			<th>Hash Algorithm</th>
@@ -26,7 +30,7 @@ $algo = $options->getHashAlgorithm();
 		</tr>
 		<tr>
 			<th>Private Key</th>
-			<td><pre><?php echo $this->escapeHtml($privKey->toString()); ?></pre></td>
+			<td><pre><?php echo $pemString; ?></pre></td>
 		</tr>
 		<tr>
 			<th>Public Key</th>

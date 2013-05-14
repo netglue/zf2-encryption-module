@@ -3,7 +3,7 @@
 namespace NetglueEncrypt\Controller\Plugin;
 
 /**
- * Key Storage
+ * Key Storage & Session Container
  */
 use NetglueEncrypt\KeyStorage\KeyStorageInterface;
 use NetglueEncrypt\Session\Container;

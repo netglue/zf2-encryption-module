@@ -24,42 +24,77 @@ if(isset($this->error) && true === $this->error) {
 <?php
 }
 
-$this->form->setAttribute('class', 'form-horizontal');
-echo $this->form()->openTag($this->form);
+?>
 
-foreach($this->form as $element) {
+<div class="row">
+	<div class="span8">
+		<div class="well">
+			<?php
+
+			$this->form->setAttribute('class', 'form-horizontal');
+			echo $this->form()->openTag($this->form);
+
+			foreach($this->form as $element) {
 	
-	if($element instanceof \Zend\Form\Element\Button) {
-		?>
-		<div class="form-actions">
-			<?php
-			$element->setAttribute('class', 'btn btn-primary');
-			echo $this->formButton($element); ?> 
-			<button type="reset" class="btn">Reset</button>
-		</div>
-		<?php
-	} elseif($element instanceof \Zend\Form\Element\Hidden) {
-		echo $this->formHidden($element);
-	} else {
-		?>
+				if($element instanceof \Zend\Form\Element\Button) {
+					?>
+					<div class="form-actions">
+						<?php
+						$element->setAttribute('class', 'btn btn-primary');
+						echo $this->formButton($element); ?> 
+						<button type="reset" class="btn">Reset</button>
+					</div>
+					<?php
+				} elseif($element instanceof \Zend\Form\Element\Hidden) {
+					echo $this->formHidden($element);
+				} else {
+					?>
 		
-		<div class="control-group">
-			<?php
-			echo $this->formLabel()->openTag(array('for' => $element->getAttribute('name'), 'class' => 'control-label'));
-			echo $this->escapeHtml($element->getLabel());
-			echo $this->formLabel()->closeTag();
-			?>
-			<div class="controls">
-				<?php
-				echo $this->formElement($element);
-				$this->formElementErrors()->setAttributes(array('class' => 'text-error unstyled'));
-				echo $this->formElementErrors($element);
-				?>
-			</div>
-		</div>
+					<div class="control-group">
+						<?php
+						echo $this->formLabel()->openTag(array('for' => $element->getAttribute('name'), 'class' => 'control-label'));
+						echo $this->escapeHtml($element->getLabel());
+						echo $this->formLabel()->closeTag();
+						?>
+						<div class="controls">
+							<?php
+							echo $this->formElement($element);
+							$this->formElementErrors()->setAttributes(array('class' => 'text-error unstyled'));
+							echo $this->formElementErrors($element);
+							?>
+						</div>
+					</div>
 		
-		<?php
-	}
-}
+					<?php
+				}
+			}
 
-echo $this->form()->closeTag($this->form);
+			echo $this->form()->closeTag($this->form);
+			?>
+		</div>
+	</div>
+	
+	<div class="span4">
+		<div class="well">
+			<h4>Key Pair Generation</h4>
+			<p>An <a href="http://en.wikipedia.org/wiki/RSA_(algorithm)">RSA key pair</a> consists of a private and a public key file. The public key can
+			be shared with anyone you like and can be used to encrypt data and verify encrypted
+			data. Only the holder of the private key can successfully decrypt encrypted information.</p>
+			
+			<h4>Options</h4>
+			<p><span class="label">Key Pair Name:</span> Provide a unique name for your key pair. Or, enter an existing key pair name to overwrite
+			that key pair with a new one.</p>
+			<p><span class="label">Pass Phrase:</span> It is important to encrypt your private key with a pass phrase that only you know. If
+			your private key was discovered by someone, they would not be able to decrypt anything
+			without your pass phrase. <strong>Do not use <code>password</code> or some other weak
+			phrase like <code>qwerty</code></strong>. Pick a strong pass phrase of at least 8 characters
+			including mixed case letters, numbers and punctuation.</p>
+			<p><span class="label">Digest Algorithm:</span> This is the <a href="http://en.wikipedia.org/wiki/Cryptographic_hash_function">one-way hashing algorithm</a>
+			the key pair will use for generating hashes.</p>
+			<p><span class="label">Key Size:</span> Theoretically, the bigger the key size is, the harder it is to crack the encryption but it will also take more time and processing power to encrypt and decrypt the information. <a href="http://en.wikipedia.org/wiki/Key_size">See Wikipedia</a> for more info. The default of 2048 should be perfectly OK.</p>
+			<p><span class="label">Output Type:</span> Select <a href="http://en.wikipedia.org/wiki/Base64">Base64</a> unless you need to store encrypted data in it's raw format.</p>
+		</div>
+	</div>
+</div>
+
+

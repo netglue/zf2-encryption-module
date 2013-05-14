@@ -1,4 +1,4 @@
-# ZF2 RSA Public Key Encryption Module
+# ZF2 RSA Key Pair Management Module
 
 ## Introduction
 
@@ -119,9 +119,14 @@ Operation is pretty similar to the controller plugin.
 * Add sign and verify methods to controller plugin and view helper
 * Add sign and verify features/forms to views
 * Clean up exception handling throughout to catch the correct class of exceptions in try blocks
+* Tests
+* Inline Docs in views
+* More key storage devices such as DB? Mongo?
 
 ## Further ideas
 
 * It might be useful to know how old a key pair is and it would be trivial to implement this in the key storage interface
+* Provide features that make it easy to sign and encrypt email messages
+* Perhaps allow a way to publicly expose and download public keys so they can be used by third parties to encrypt data or verify signatures etc.
 
 

@@ -26,7 +26,7 @@ if(isset($this->error) && true === $this->error) {
 
 if($this->result) {
 	?>
-	<div class="well well-large">
+	<div class="well">
 		<h2>Encrypted/Decrypted Output</h2>
 		<textarea rows="15" class="input-block-level"><?php
 		echo $this->escapeHtml($this->result);
@@ -34,49 +34,75 @@ if($this->result) {
 	</div>
 	<?php
 }
+?>
 
-
-$this->form->setAttribute('class', 'form-horizontal');
-echo $this->form()->openTag($this->form);
-
-foreach($this->form as $element) {
-	
-	if($element instanceof \Zend\Form\Element\Textarea) {
-		$element->setAttribute('class', 'input-block-level');
-		$element->setAttribute('rows', 15);
-	}
-	
-	if($element instanceof \Zend\Form\Element\Button) {
-		?>
-		<div class="form-actions">
-			<?php
-			$element->setAttribute('class', 'btn btn-primary');
-			echo $this->formButton($element); ?> 
-			<button type="reset" class="btn">Reset</button>
-		</div>
+<div class="row">
+	<div class="span8">
+		<div class="well">
 		<?php
-	} elseif($element instanceof \Zend\Form\Element\Hidden) {
-		echo $this->formHidden($element);
-	} else {
-		?>
-		
-		<div class="control-group">
-			<?php
-			echo $this->formLabel()->openTag(array('for' => $element->getAttribute('name'), 'class' => 'control-label'));
-			echo $this->escapeHtml($element->getLabel());
-			echo $this->formLabel()->closeTag();
-			?>
-			<div class="controls">
-				<?php
-				echo $this->formElement($element);
-				$this->formElementErrors()->setAttributes(array('class' => 'text-error unstyled'));
-				echo $this->formElementErrors($element);
+
+		$this->form->setAttribute('class', 'form-horizontal');
+		echo $this->form()->openTag($this->form);
+
+		foreach($this->form as $element) {
+	
+			if($element instanceof \Zend\Form\Element\Textarea) {
+				$element->setAttribute('class', 'input-block-level');
+				$element->setAttribute('rows', 15);
+			}
+	
+			if($element instanceof \Zend\Form\Element\Button) {
 				?>
-			</div>
-		</div>
+				<div class="form-actions">
+					<?php
+					$element->setAttribute('class', 'btn btn-primary');
+					echo $this->formButton($element); ?> 
+					<button type="reset" class="btn">Reset</button>
+				</div>
+				<?php
+			} elseif($element instanceof \Zend\Form\Element\Hidden) {
+				echo $this->formHidden($element);
+			} else {
+				?>
 		
-		<?php
-	}
-}
+				<div class="control-group">
+					<?php
+					echo $this->formLabel()->openTag(array('for' => $element->getAttribute('name'), 'class' => 'control-label'));
+					echo $this->escapeHtml($element->getLabel());
+					echo $this->formLabel()->closeTag();
+					?>
+					<div class="controls">
+						<?php
+						echo $this->formElement($element);
+						$this->formElementErrors()->setAttributes(array('class' => 'text-error unstyled'));
+						echo $this->formElementErrors($element);
+						?>
+					</div>
+				</div>
+		
+				<?php
+			}
+		}
 
-echo $this->form()->closeTag($this->form);
+		echo $this->form()->closeTag($this->form);
+		
+		?>
+		</div>
+	</div>
+	
+	<div class="span4">
+		<div class="well">
+			<h4>Manual Encryption/Decryption</h4>
+			<p><strong>For encryption</strong>, simply select the key pair
+			you wish to use, paste into the input text field the data you
+			want encrypted and hit submit. There is no need to provide the
+			pass phrase for encryption, this is only required for decryption
+			with keys that require a pass phrase.</p>
+			<p>To decrypt information, the key pair you select must match
+			the key that was used to encrypt the data in the first place. You
+			will likely want the output to be Base64 encoded and if the
+			selected key requires a password and it has not already been set
+			you will need to enter that too.</p>
+		</div>
+	</div>
+</div>

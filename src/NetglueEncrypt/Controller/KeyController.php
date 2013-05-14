@@ -204,7 +204,12 @@ class KeyController extends AbstractController {
 		$post = $view->form->getData();
 		$keys = $this->getKeyStorage();
 		try {
-			$rsa = $keys->get($post['keyName'], $post['keyPassPhrase']);
+			$pass = $post['keyPassPhrase'];
+			$session = $this->getSession();
+			if($session->hasPassPhrase($post['keyName'])) {
+				$pass = $session->getPassPhrase($post['keyName']);
+			}
+			$rsa = $keys->get($post['keyName'], $pass);
 		} catch(\Exception $e) {
 			$view->form->setMessages(array(
 				'keyName' => array(

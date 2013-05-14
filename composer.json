@@ -10,9 +10,9 @@
     "netglue",
     "encryption"
   ],
-  "homepage" : "https://bitbucket.org/netglue/zf2-encryption-module",
+  "homepage" : "https://github.com/netglue/zf2-encryption-module",
   "support" : {
-    "issues" : "https://bitbucket.org/netglue/zf2-encryption-module/issues"
+    "issues" : "https://github.com/netglue/zf2-encryption-module/issues"
   },
   "authors" : [
     {

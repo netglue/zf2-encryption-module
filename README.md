@@ -36,6 +36,10 @@ Enable the module in your main config file. The module name you should enter is 
 
 Look in the `vendor/netglue/zf2-encryption-module` directory once installed and look at the config files to see what can be altered for your app.
 
+## Contributing Etc
+
+Very happy to receive contributions to improve the module. Code is hosted on github at [github.com/netglue/zf2-encryption-module](https://github.com/netglue/zf2-encryption-module)
+
 ## View Scripts
 
 All of the view scripts are mapped using the `['view_manager']['template_map']` keys with template names prefixed with `netglue-encrypt`
@@ -119,6 +123,8 @@ There are 2 filters avalaible for use and instances can be retrieved from the se
 	$decryptFilter = $serviceLocator->get('NetlgueEncrypt\Filter\Decrypt');
 
 They behave as you'd expect - I'm not sure about having them retrieved from the service manager and whether this is good practice or not. I'm open to alterbnatives!
+
+The reason I didn't create them as adapters for the standard `Zend\Filter\Encrypt` filter is because the `setAdapter()` method doesn't accept instances, only class names so there would be no way of injecting dependencies into the filter.
 
 
 ## TODO

@@ -90,7 +90,17 @@ class Filesystem implements KeyStorageInterface {
 		if(empty($name) || !is_string($name)) {
 			throw new Exception\InvalidArgumentException("A name for the key pair must be provided");
 		}
+		$loadKey = false;
 		if(!isset($this->keys[$name])) {
+			$loadKey = true;
+		}
+		if(!empty($passPhrase) && $loadKey === false) {
+			$key = $this->keys[$name];
+			if(null === $key->getOptions()->getPrivateKey()) {
+				$loadKey = true;
+			}
+		}
+		if($loadKey) {
 			$this->loadKey($name, $passPhrase);
 		}
 		return $this->keys[$name];

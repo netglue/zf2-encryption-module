@@ -50,6 +50,7 @@ class Module implements
 	 * Return autoloader configuration
 	 * @link http://framework.zend.com/manual/2.0/en/user-guide/modules.html
 	 * @return array
+	 * @implements AutoloaderProviderInterface
 	 */
 	public function getAutoloaderConfig() {
     return array(
@@ -82,6 +83,7 @@ class Module implements
 	/**
 	 * Return controller plugin config
 	 * @return array
+	 * @implements ControllerPluginProviderInterface
 	 */
 	public function getControllerPluginConfig() {
 		return array(
@@ -89,6 +91,7 @@ class Module implements
 				'NetglueEncrypt\Controller\Plugin\Crypt' => function($sm) {
 					$sl = $sm->getServiceLocator();
 					$plugin = new \NetglueEncrypt\Controller\Plugin\Crypt;
+					// Plugin depends on key storage and specific session container
 					$plugin->setKeyStorage($sl->get('NetglueEncrypt\KeyStorage'));
 					$plugin->setSession($sl->get('NetglueEncrypt\Session'));
 					return $plugin;
@@ -103,6 +106,7 @@ class Module implements
 	/**
 	 * Return view helper plugin config
 	 * @return array
+	 * @implements ViewHelperProviderInterface
 	 */
 	public function getViewHelperConfig() {
 		return array(
@@ -110,6 +114,7 @@ class Module implements
 				'NetglueEncrypt\View\Helper\Crypt' => function($sm) {
 					$sl = $sm->getServiceLocator();
 					$plugin = new \NetglueEncrypt\View\Helper\Crypt;
+					// Plugin depends on key storage and specific session container
 					$plugin->setKeyStorage($sl->get('NetglueEncrypt\KeyStorage'));
 					$plugin->setSession($sl->get('NetglueEncrypt\Session'));
 					return $plugin;
@@ -124,6 +129,7 @@ class Module implements
 	/**
 	 * Return controller configuration
 	 * @return array
+	 * @implements ControllerProviderInterface
 	 */
 	public function getControllerConfig() {
 		return include __DIR__ . '/../../config/controllers.config.php';

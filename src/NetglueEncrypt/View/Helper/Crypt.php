@@ -5,10 +5,16 @@ namespace NetglueEncrypt\View\Helper;
 use Zend\View\Helper\AbstractHelper;
 
 /**
- * Key Storage
+ * Key Storage & Session Container
  */
 use NetglueEncrypt\KeyStorage\KeyStorageInterface;
 use NetglueEncrypt\Session\Container;
+
+/**
+ * Exceptions
+ */
+use Zend\Crypt\PublicKey\Rsa\Exception\ExceptionInterface as RsaException;
+use NetglueEncrypt\KeyStorage\Exception\ExceptionInterface as StorageException;
 
 class Crypt extends AbstractHelper {
 	
@@ -18,8 +24,16 @@ class Crypt extends AbstractHelper {
 	 */
 	protected $keyStorage;
 	
+	/**
+	 * Session Container
+	 * @var Container|NULL
+	 */
 	protected $session;
 	
+	/**
+	 * Current selected key pair name
+	 * @var string|NULL
+	 */
 	protected $keyName;
 	
 	/**
@@ -101,6 +115,13 @@ class Crypt extends AbstractHelper {
 		return true;
 	}
 	
+	/**
+	 * Return the RSA Key Pair from storage
+	 * 
+	 * There's every chance an exception will be thrown while trying to retreive a key pair
+	 * if for example, no password has been set
+	 * @return Zend\Crypt\PublicKey\Rsa
+	 */
 	public function getKeyPair() {
 		$storage = $this->getKeyStorage();
 		$session = $this->getSession();
@@ -109,39 +130,72 @@ class Crypt extends AbstractHelper {
 		return $storage->get($name, $pass);
 	}
 	
+	/**
+	 * Encrypt Input with current selected key pair
+	 * 
+	 * This method does not try to catch any exceptions, nor does it check whether
+	 * the key pair is ready for use - this is because the primary purpose of the
+	 * view helper is for decryption
+	 * 
+	 * @param string $input
+	 * @return string
+	 */
 	public function encrypt($input) {
 		$rsa = $this->getKeyPair();
 		return $rsa->encrypt($input);
 	}
 	
+	/**
+	 * Decrypt input
+	 * 
+	 * This is the method called by __invoke when appropriate
+	 * @param string $input
+	 * @return string
+	 */
 	public function decrypt($input) {
 		if($this->isReady()) {
 			try {
 				return $this->getKeyPair()->decrypt($input);
-			} catch(\Exception $e) {
-				return $this->placeholder;
+			} catch(RsaException $e) {
+				// Probably password is not set
+			} catch(StorageException $e) {
+				// No key pair exists or storage caught an RsaException
 			}
 		}
 		return $this->placeholder;
 	}
 	
+	/**
+	 * Set Key Storage
+	 * @param KeyStorageInterface $storage
+	 * @return Crypt $this
+	 */
 	public function setKeyStorage(KeyStorageInterface $storage) {
 		$this->keyStorage = $storage;
 		return $this;
 	}
 	
+	/**
+	 * Return Key Pair Storage device
+	 * @return KeyStorageInterface|NULL
+	 */
 	public function getKeyStorage() {
 		return $this->keyStorage;
 	}
 	
 	/**
 	 * Return session container for storing pass phrases
-	 * @return NetglueEncrypt\Session\Container
+	 * @return Container|NULL
 	 */
 	public function getSession() {
 		return $this->session;
 	}
 	
+	/**
+	 * Set Session Container
+	 * @param Container $session
+	 * @return Crypt $this
+	 */
 	public function setSession(Container $session) {
 		$this->session = $session;
 		return $this;

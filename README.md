@@ -21,12 +21,13 @@ The controller plugin will throw exceptions where the password has not been set 
 	
 ## View Helper
 
+The view helper is primarily intended for decrypting data present in the view automatically
+when an appropriate pass phrase has been set in the session. In all other cases, the view helper should return a string
+such as `<span class="encrypted">Encrypted</span>`
 
 ## TODO
 
-* View Helper
 * Generic Filter
 * Download Keys
-* Delete Keys
 * Add sign and verify methods to controller plugin and view helper
 * Add sign and verify features/forms to views

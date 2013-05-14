@@ -22,7 +22,11 @@ class Crypt extends AbstractHelper {
 	
 	protected $keyName;
 	
-	protected $encryptedTextReplacement = '<span class="muted encrypted">Encrypted</span>';
+	/**
+	 * Text/Html string returned when decryption is not possible
+	 * @var string
+	 */
+	protected $placeholder = '<span class="muted encrypted">Encrypted</span>';
 	
 	/**
 	 * By default, if the plugin is invoked with a string, the helper will try
@@ -37,11 +41,39 @@ class Crypt extends AbstractHelper {
 		return $this;
 	}
 	
+	/**
+	 * Set Placeholder Text
+	 * @param string $text
+	 * @return Crypt $this
+	 */
+	public function setPlaceholder($text) {
+		$this->placeholder = (string) $text;
+		return $this;
+	}
+	
+	/**
+	 * Return placeholder text
+	 * @return string
+	 */
+	public function getPlaceholder() {
+		return $this->placeholder;
+	}
+	
+	/**
+	 * Set the key pair used for en/decryption by name
+	 * @param string $name
+	 * @return Crypt $this
+	 */
 	public function setKeyName($name) {
 		$this->keyName = $name;
 		return $this;
 	}
 	
+	/**
+	 * Return current selected key name
+	 * Returns the default key name if not set
+	 * @return string
+	 */
 	public function getKeyName() {
 		if(NULL !== $this->keyName) {
 			return $this->keyName;
@@ -49,6 +81,11 @@ class Crypt extends AbstractHelper {
 		return KeyStorageInterface::DEFAULT_KEY_NAME;
 	}
 	
+	/**
+	 * Whether it is theoretically possible for the view helper to decrypt or encrypt data
+	 * The method is not capable of determining whether we are using the correct key pair for any given data
+	 * @return bool
+	 */
 	public function isReady() {
 		$name = $this->getKeyName();
 		$storage = $this->getKeyStorage();
@@ -82,10 +119,10 @@ class Crypt extends AbstractHelper {
 			try {
 				return $this->getKeyPair()->decrypt($input);
 			} catch(\Exception $e) {
-				return $this->encryptedTextReplacement;
+				return $this->placeholder;
 			}
 		}
-		return $this->encryptedTextReplacement;
+		return $this->placeholder;
 	}
 	
 	public function setKeyStorage(KeyStorageInterface $storage) {

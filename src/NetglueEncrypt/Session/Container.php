@@ -1,4 +1,8 @@
 <?php
+/**
+ * Simple Session container with methods specifically for managing pass phrases for
+ * RSA key pairs
+ */
 
 namespace NetglueEncrypt\Session;
 
@@ -20,6 +24,12 @@ class Container extends ZendContainer {
 		return array_key_exists($name, $this->getPassPhrases());
 	}
 	
+	/**
+	 * Store the pass phrase for the given key pair name
+	 * @param string $passPhrase
+	 * @param string $name If null the default key name will be used
+	 * @return Container $this
+	 */
 	public function setPassPhrase($passPhrase, $name = NULL) {
 		if(NULL === $name) {
 			$name = KeyStorageInterface::DEFAULT_KEY_NAME;
@@ -30,6 +40,11 @@ class Container extends ZendContainer {
 		return $this;
 	}
 	
+	/**
+	 * Remove a single pass phrase from storage for the given key pair name
+	 * @param string $name If null, default key name is used
+	 * @return Container $this
+	 */
 	public function clearPassPhrase($name = NULL) {
 		if(NULL === $name) {
 			$name = KeyStorageInterface::DEFAULT_KEY_NAME;
@@ -41,6 +56,10 @@ class Container extends ZendContainer {
 		return $this;
 	}
 	
+	/**
+	 * Remove all pass phrases from session storage
+	 * @return Container $this
+	 */
 	public function clearAllPassPhrases() {
 		foreach($this->getPassPhrases() as $name => $info) {
 			$this->clearPassPhrase($name);
@@ -48,6 +67,14 @@ class Container extends ZendContainer {
 		return $this;
 	}
 	
+	/**
+	 * Return the pass phrase for the given key pair name
+	 *
+	 * Returns boolean false if the pass phrase has not been set
+	 *
+	 * @param string $name
+	 * @return string|false
+	 */
 	public function getPassPhrase($name = NULL) {
 		if(NULL === $name) {
 			$name = KeyStorageInterface::DEFAULT_KEY_NAME;
@@ -70,4 +97,5 @@ class Container extends ZendContainer {
 		}
 		return $this->passPhrases;
 	}
+	
 }

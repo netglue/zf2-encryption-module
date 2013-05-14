@@ -1,4 +1,8 @@
 <?php
+/**
+ * Abstract Options class specifically for filesystem key storage
+ */
+
 
 namespace NetglueEncrypt\KeyStorage;
 
@@ -34,7 +38,6 @@ class FilesystemOptions extends AbstractOptions {
 	 * Set base key storage directory
 	 * @param string $path
 	 * @return FilesystemOptions $this
-	 * @throws Exception\InvalidArgumentException if the directory doesn't exist, is not readable or is not writable
 	 */
 	public function setBasePath($path) {
 		$this->basePath = rtrim($path, DIRECTORY_SEPARATOR);
@@ -49,29 +52,56 @@ class FilesystemOptions extends AbstractOptions {
 		return $this->basePath;
 	}
 	
+	/**
+	 * Whether we should delete old keys when a replacement is generated
+	 * @param bool $flag
+	 * @return FilesystemOptions $this
+	 */
 	public function setDeleteOldKeys($flag) {
 		$this->deleteOldKeys = (bool) $flag;
 		return $this;
 	}
 	
+	/**
+	 * Whether we should delete old keys when a replacement is generated
+	 * @return bool
+	 */
 	public function getDeleteOldKeys() {
 		return $this->deleteOldKeys;
 	}
 	
+	/**
+	 * Set file mode for private keys
+	 * @param int $mode (Must be octal)
+	 * @return FilesystemOptions $this
+	 */
 	public function setPrivateKeyFileMode($mode) {
 		$this->privateKeyFileMode = $mode;
 		return $this;
 	}
 	
+	/**
+	 * Return file mode for private keys
+	 * @return int
+	 */
 	public function getPrivateKeyFileMode() {
 		return $this->privateKeyFileMode;
 	}
 	
+	/**
+	 * Set file mode for public keys
+	 * @param int $mode (Must be octal)
+	 * @return FilesystemOptions $this
+	 */
 	public function setPublicKeyFileMode($mode) {
 		$this->publicKeyFileMode = $mode;
 		return $this;
 	}
 	
+	/**
+	 * Return file mode for public keys
+	 * @return int
+	 */
 	public function getPublicKeyFileMode() {
 		return $this->publicKeyFileMode;
 	}

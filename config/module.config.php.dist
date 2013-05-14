@@ -1,0 +1,24 @@
+<?php
+/**
+ * Dist Configuration for the Net Glue Encryption Module
+ * @author George Steel <george@net-glue.co.uk>
+ * @copyright Copyright (c) 2013 Net Glue Ltd (http://netglue.co)
+ * @license http://opensource.org/licenses/MIT
+ */
+
+return array(
+	'netglue_encrypt' => array(
+		'key_storage' => array(
+			'options' => array(
+				// Path to some writable directory outside your document root where you want to keep the keys
+				'basePath' => __DIR__ . '/../data',
+				// Whether old key pairs should be deleted if new ones are generated with the same name
+				'deleteOldKeys' => false,
+				// Default is 0600
+				//'privateKeyFileMode' => 0600
+				// Default is 0644
+				//'publicKeyFileMode' => 0644
+			),
+		),
+	),
+);

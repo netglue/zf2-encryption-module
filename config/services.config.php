@@ -32,6 +32,25 @@ return array(
 			$container = new \NetglueEncrypt\Session\Container('netglue_encrypt');
 			return $container;
 		},
+		
+		'NetglueEncrypt\Filter\Encrypt' => function($sm) {
+			$filter = new \NetglueEncrypt\Filter\Encrypt;
+			$storage = $sm->get('NetglueEncrypt\KeyStorage');
+			$session = $sm->get('NetglueEncrypt\Session');
+			$filter->setKeyStorage($storage);
+			$filter->setSession($session);
+			return $filter;
+		},
+		
+		'NetglueEncrypt\Filter\Decrypt' => function($sm) {
+			$filter = new \NetglueEncrypt\Filter\Decrypt;
+			$storage = $sm->get('NetglueEncrypt\KeyStorage');
+			$session = $sm->get('NetglueEncrypt\Session');
+			$filter->setKeyStorage($storage);
+			$filter->setSession($session);
+			return $filter;
+		},
+		
 	),
 	
 	'aliases' => array(

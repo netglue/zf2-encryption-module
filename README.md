@@ -111,9 +111,18 @@ Operation is pretty similar to the controller plugin.
 	// Change the placeholder text returned when decryption is not possible
 	$this->ngCrypt()->setPlaceholder('<strong>No Workie</strong>');
 	
+## Filters
+
+There are 2 filters avalaible for use and instances can be retrieved from the service manager:
+	
+	$encryptFilter = $serviceLocator->get('NetlgueEncrypt\Filter\Encrypt');
+	$decryptFilter = $serviceLocator->get('NetlgueEncrypt\Filter\Decrypt');
+
+They behave as you'd expect - I'm not sure about having them retrieved from the service manager and whether this is good practice or not. I'm open to alterbnatives!
+
+
 ## TODO
 
-* Generic Filter
 * Download Keys
 * Import Keys
 * Add sign and verify methods to controller plugin and view helper

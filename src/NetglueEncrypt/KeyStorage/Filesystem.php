@@ -152,6 +152,12 @@ class Filesystem implements KeyStorageInterface {
 		return $this;
 	}
 	
+	/**
+	 * Delete a key from disk and remove it from the key list
+	 * @param string $name
+	 * @return Filesystem $this
+	 * @throws Exception\ExceptionInterface
+	 */
 	public function delete($name) {
 		if(empty($name) || !is_string($name)) {
 			throw new Exception\InvalidArgumentException("A name for the key pair must be provided");
@@ -213,13 +219,23 @@ class Filesystem implements KeyStorageInterface {
 		$hash = $list[$name]['file'];
 		$base = $this->options->getBasePath() . DIRECTORY_SEPARATOR;
 		
+		$private = $base.$hash;
+		$public = $private.'.pub';
+		
 		$options = array(
-			'private_key' => $base . $hash,
-			'public_key' => $base . $hash . '.pub',
+			'private_key' => $private,
+			'public_key' => $public,
 			'pass_phrase' => $passPhrase,
 			'binary_output' => $list[$name]['binaryOutput'],
 			'hashAlgorithm' => $list[$name]['hashAlgorithm'],
 		);
+		if($this->requiresPassPhrase($name) && empty($passPhrase)) {
+			/**
+			 * Do not load the private key so we can still perform encryption
+			 * with the public key
+			 */
+			unset($options['private_key'], $options['pass_phrase']);
+		}
 		try {
 			$rsa = Rsa::factory($options);
 		} catch(ZendException $e) {

@@ -23,6 +23,10 @@ therefore I would never advocate not encrypting the private key with a pass phra
 then if your database full of encrypted data _and_ the private key are compromised, the
 password contains one last line of defence...
 
+Also, as the session container has no special configuration, it would likely be prudent to
+set up the default session manager with some sane values such as limiting the 
+lifetime of the session container etc.
+
 ## Installation
 
 The module should be installed with [composer](http://getcomposer.org). It's name is `netglue/zf2-encryption-module`
@@ -50,6 +54,21 @@ At the moment there is only filesystem key storage but the theory is that you ca
 The default key storage instance that gets configured is accessed with the service manager using the key:
 	
 	$serviceLocator->get('NetglueEncrypt\KeyStorage');
+
+## Session Pass Phrase Storage
+
+You can get the session container where passwords are stored from the service locator
+
+	$serviceLocator->get('NetglueEncrypt\Session');
+
+The container has some very straight forward methods for getting/setting pass phrases and checking whether one has been set or not.
+
+For interoperability with other modules, I figured it best not to do any
+special setup of the session using the session manager - I didn't think it was
+an appropriate place to determine how a session should behave as it's something
+that gets done usually on an application-wide basis. So, the container is just
+instantiated with `new Container('netglue_encrypt')` meaning you should be able to
+retrieve it from the default session manager with this name too.
 
 ## Controller Plugin
 
@@ -96,6 +115,7 @@ Operation is pretty similar to the controller plugin.
 
 * Generic Filter
 * Download Keys
+* Import Keys
 * Add sign and verify methods to controller plugin and view helper
 * Add sign and verify features/forms to views
 * Clean up exception handling throughout to catch the correct class of exceptions in try blocks

@@ -56,12 +56,22 @@ abstract class AbstractController extends AbstractActionController {
 		return $this->logger instanceof LoggerInterface;
 	}
 	
+	/**
+	 * Set Key Storage
+	 * @param KeyStorageInterface $storage
+	 * @return AbstractController $this
+	 */
 	public function setKeyStorage(KeyStorageInterface $storage) {
 		$this->keyStorage = $storage;
 		return $this;
 	}
 	
+	/**
+	 * Get Key Storage
+	 * @return KeyStorageInterface|NULL
+	 */
 	public function getKeyStorage() {
 		return $this->keyStorage;
 	}
+	
 }

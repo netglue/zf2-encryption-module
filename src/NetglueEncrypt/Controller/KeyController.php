@@ -52,13 +52,8 @@ class KeyController extends AbstractController {
 			$this->flashMessenger()->addErrorMessage("There is no key pair by the name {$keyName}");
 			return $this->redirect()->toRoute(static::ROUTE_HOME);
 		}
-		if($storage->requiresPassPhrase($keyName) && !$session->hasPassPhrase($keyName)) {
-			$this->flashMessenger()->addInfoMessage("Please set the pass phrase for {$keyName} before viewing information about it");
-			return $this->redirect()->toRoute(static::ROUTE_SET_PASS, array('keyName' => $keyName));
-		}
 		$view = new ViewModel;
 		$pass = $session->getPassPhrase($keyName);
-		$pass = (false === $pass) ? NULL : $pass;
 		$view->rsa = $storage->get($keyName, $pass);
 		$view->keyName = $keyName;
 		return $view;

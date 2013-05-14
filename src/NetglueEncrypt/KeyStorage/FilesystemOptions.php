@@ -26,13 +26,13 @@ class FilesystemOptions extends AbstractOptions {
 	 * File create mode for the private key
 	 * @var int
 	 */
-	protected $privateKeyFileMode = 0700;
+	protected $privateKeyFileMode = 0600;
 	
 	/**
 	 * File create mode for the public key
 	 * @var int
 	 */
-	protected $publicKeyFileMode = 0744;
+	protected $publicKeyFileMode = 0644;
 	
 	/**
 	 * Set base key storage directory

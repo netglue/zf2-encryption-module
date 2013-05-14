@@ -23,23 +23,30 @@ $viewPath = __DIR__ . '/../view/netglue-encrypt/key';
 return array(
 	'netglue_encrypt' => array(
 		
+		/**
+		 * Key Storage Config
+		 * We only have filesystem storage atm.
+		 * The storage factory will try to get 'name' from the service locator
+		 * first. If that fails, we try to create an instance of 'name' and pass 'options' to the constructor
+		 */
 		'key_storage' => array(
 			'name' => 'NetglueEncrypt\KeyStorage\Filesystem',
+			// see NetglueEncrypt\KeyStorage\FilesystemOptions for more options
 			'options' => array(
 				'basePath' => __DIR__ . '/../data',
 			),
 		),
 	),
 	
-	
 	'router' => array(
 		'routes' => $routes,
 	),
 	
 	'view_manager' => array(
-		'template_path_stack' => array(
-			//'netglue_encrypt' => __DIR__ . '/../view',
-		),
+		/**
+		 * All templates are mapped to keys prefixed with 'netglue-encrypt'
+		 * so they are easy to override in your own app
+		 */
 		'template_map' => array(
 			'netglue-encrypt/top' => $viewPath.'/_top.phtml',
 			'netglue-encrypt/key/generate' => $viewPath.'/generate.phtml',

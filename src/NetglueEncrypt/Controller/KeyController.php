@@ -201,7 +201,7 @@ class KeyController extends AbstractController {
 		try {
 			$pass = $post['keyPassPhrase'];
 			$session = $this->getSession();
-			if($session->hasPassPhrase($post['keyName'])) {
+			if($session->hasPassPhrase($post['keyName']) && empty($post['keyPassPhrase'])) {
 				$pass = $session->getPassPhrase($post['keyName']);
 			}
 			$session->setPassPhrase($pass, $post['keyName']);
@@ -221,8 +221,8 @@ class KeyController extends AbstractController {
 			$view->result = $rsa->{$method}($post['sourceText']);
 		} catch(\Exception $e) {
 			$view->form->setMessages(array(
-				'keyName' => array(
-					'Failed to encrypt or decrypt data',
+				'keyPassPhrase' => array(
+					'Failed to encrypt or decrypt data. Did you provide a password for the key?',
 					$e->getMessage(),
 				),
 			));

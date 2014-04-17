@@ -3,6 +3,7 @@
 $this->headTitle('Set Pass Phrase for Key Pair "'.$this->keyName.'"');
 ?>
 
+<div class="container">
 <div class="page-header">
 	<h1>Set Pass Phrase for Key Pair &ldquo;<?php echo $this->keyName; ?>&rdquo;</h1>
 </div>
@@ -59,3 +60,5 @@ foreach($this->form as $element) {
 }
 
 echo $this->form()->closeTag($this->form);
+?>
+</div>
